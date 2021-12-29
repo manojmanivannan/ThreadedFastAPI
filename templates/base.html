@@ -1,26 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     {% block head %}
-    <title>{% block title %}{% endblock %} Live ISS Tracker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('content', path='/css/index_style.css') }}">
-    <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Free Artist Tools by cecilieo.com">
+    <meta name="author" content="Shinichi Okada">
+
+    <title>{% block title %}{% endblock %} International Space Station</title>
+    <link rel="icon" href="{{ url_for('static', path='/images/favicon.ico') }}" sizes="32x32" />
+
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', path='/css/style3.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/css/mystyle.css') }}" rel="stylesheet">
+
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Font Awesome JS -->
     <script src="https://kit.fontawesome.com/543c4560e5.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-        </script>
-    <script>
+
+    {% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+        {% include 'include/sidebar.html' %}
+        <!-- Page Content  -->
+        <div id="content">
+            {% include 'include/topnav.html' %}
+            {% block page_content %}
+            {% endblock %}
+            <div class="pltimage">
+                <iframe id="iframe" class="responsive-iframe" src="{{ url_for('static', path='/images/map.png') }}"></iframe>
+            </div>
+        </div>
+
+    </div>
+    <div class="overlay"></div>
+
+
+    {% block scripts %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
         window.setInterval(function () {
             reloadIFrame()
         }, 4000);
@@ -29,21 +88,7 @@
             console.log('reloading..');
             document.getElementById('iframe').contentWindow.location.reload();
         }
-        function toggleDarkMode() {
-          var element = document.body;
-          element.classList.toggle("dark-mode");
-        }
-            </script>
-    
-    {% endblock %}
-</head>
-
-<body>
-    
-    <div class="wrapper">
-        {% include 'sidebar.html' %}
-    </div>
-    {% block page_content %}
+    </script>
     {% endblock %}
 </body>
 
