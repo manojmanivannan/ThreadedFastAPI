@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="wrapper">
+    {% include 'sidebar.html' %}
+</div>
+
+<div class="main">
+    <div class="top">
+        <!-- <img src="favicon.png" alt="favicon" height="31" width="31"> -->
+        <h1>International Space Station</h1>
+        <h3>Live Tracking</h3>
+
+    </div>
+    <p>
+
+    <div class="content">
+        The International Space Station (ISS) is a modular space station (habitable artificial satellite) in low
+        Earth orbit. It is a multinational collaborative project involving five participating space agencies: NASA
+        (United States), Roscosmos (Russia), JAXA (Japan), ESA (Europe), and CSA (Canada). The ownership and use of
+        the space station is established by intergovernmental treaties and agreements. The station serves as a
+        microgravity and space environment research laboratory in which scientific research is conducted in
+        astrobiology, astronomy, meteorology, physics, and other fields. The ISS is suited for testing the
+        spacecraft systems and equipment required for possible future long-duration missions to the Moon and Mars.
+    </div>
+    </p>
+    <div class="pltimage">
+        <iframe id="iframe" src="{{ url_for('content', path='/image.png') }}" frameBorder="0"></iframe>
+    </div>
+</div>
+{% endblock %}
