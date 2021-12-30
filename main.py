@@ -15,6 +15,12 @@ from mpl_toolkits.basemap import Basemap # pip does not include this package, in
 from geopy.geocoders import Nominatim
 import urllib.request as url
 import os
+import logging
+import warnings
+warnings.filterwarnings( action="ignore"  )
+
+logger = logging.basicConfig(format='{levelname:7} {message}', style='{', level=logging.INFO)
+
 port = int(os.environ.get('PORT', 5000)) # add 
 
 
@@ -53,6 +59,8 @@ def show_page(request: Request) -> dict:
     )
 
 class PlotGenerator(Thread):
+    #logger = logging.basicConfig(format='{levelname:7} {message}', style='{', level=logging.INFO)
+
 
     def __init__(self, interval):
         self.stop_event = Event()
@@ -66,7 +74,7 @@ class PlotGenerator(Thread):
                  while not self.stop_event.is_set():
                     self.main()
             except KeyboardInterrupt:
-                print('Keyboard interrupt recieved at run')
+                logging.error('Keyboard interrupt recieved at run')
                 # wait self.interval seconds or until the stop_event is set
 
     def terminate(self):
@@ -74,11 +82,11 @@ class PlotGenerator(Thread):
 
     def get_plot(self):
         
-        print('INFO:     Getting Location')
+        logging.info('Getting Location')
         response = url.urlopen(iss_url)
         json_res = json.loads(response.read())
         geo_location = json_res['iss_position']
-        print('INFO:     Location obtained')
+        logging.info('Location obtained')
         timestamp = json_res['timestamp']
         lon, lat = float(geo_location['longitude']), float(geo_location['latitude'])
         self.gps_location = {'timestamp':timestamp, 'latitude': lat,'longitude': lon}
@@ -104,7 +112,7 @@ class PlotGenerator(Thread):
         plt.tight_layout()
         plt.savefig('content/image.png',dpi=80,transparent=True)
         plt.close()
-        print('INFO:     Plot saved')
+        logging.info('Plot saved')
 
     def main(self):
         try:
@@ -120,6 +128,6 @@ if __name__ == '__main__':
     worker = PlotGenerator(interval=5)
     worker.start()
     print("Obtained port {} from env".format(port))
-    uvicorn.run(app, host="0.0.0.0", port=port, debug=True, workers=1)
+    uvicorn.run(app, host="0.0.0.0", port=port, debug=True, workers=1, log_config=None)
     worker.terminate()
 
