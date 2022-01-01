@@ -14,11 +14,39 @@
     <div class="top">
         <!-- <img src="favicon.png" alt="favicon" height="31" width="31"> -->
         <h1>International Space Station</h1>
-        <h3>About</h3>
+        <h3>About Me</h3>
 
     </div>
     <div class="content">
-        This is sample about page
+        <div class="section__content">
+            <p style="text-indent: 50px;">
+               <b><i><small>
+               A relatively private individual, 
+               with an ability to concentrate on the task at hand. Consistent and thoughtful. I work best with familiar processes and do things systematically. 
+               I am tolerant, easy-going, and uncritical in getting along with others.
+            </small></i></b>
+            <br><br>
+            I am enthusiastic about collaborating in data science and machine learning projects.
+            <ul>
+               <li>My works on Github <img style="display: inline; height: 1em;" src="{{ url_for('etc', path='/github_icon.jpg') }}"><b><a href="https://github.com/manojmanivannan/DataScience" target="_blank" rel="noopener noreferrer" class="link link--dark"> here</a></b>.
+               </li>
+               <li>A simple International Space Station tracking application
+                  <b><a href="https://share.streamlit.io/manojmanivannan/liveisstracker-streamlit/track_iss.py"
+                        target="_blank" rel="noopener noreferrer" class="link link--dark">here</a></b> - built using Streamlit.  
+                     <ul>
+                        <li><i>The original source code of the app is <b><a href="https://gitlab.com/manojm18/liveisstracker" target="_blank" rel="noopener noreferrer">here <img style="display: inline; height: 1em;" src="{{ url_for('etc', path='/globe_live.png') }}"/></a></b>if you are interested.</i>
+                        </li>
+                     </ul>
+               </li>
+               <li>Check out a Stock price prediction app using LSTM  <b><a href="https://share.streamlit.io/manojmanivannan/stockpricepredict/predict.py" target="_blank" rel="noopener noreferrer" class="link link--dark">here</a></b> - built using 
+            Streamlit.</li>
+            <li>Check out a Multivariate Time-Series prediction app using LSTM  <b><a href="https://share.streamlit.io/manojmanivannan/multivariatelstm/predict.py" target="_blank" rel="noopener noreferrer" class="link link--dark">here</a></b> - built using 
+               Streamlit.</li>
+            </ul> 
+            <i><small>PS: Please wait a few seconds for the <a href="https://streamlit.io/" target="_blank" rel="noopener noreferrer" class="link link--dark"><b>Streamlit </b><img style="display: inline; height: 1em;" src="{{ url_for('etc', path='/streamlit_icon.jpg') }}"></a> app to boot up</small></i>.
+                  
+            </p>
+         </div>
     </div>
 </div>
 {% endblock %}

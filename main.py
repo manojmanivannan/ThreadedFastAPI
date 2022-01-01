@@ -27,6 +27,7 @@ TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
 
 app = FastAPI(title="Live ISS Tracker")
 app.mount("/content", StaticFiles(directory="content"), name="content")
+app.mount("/etc", StaticFiles(directory="etc"), name="etc")
 
 # api_router = APIRouter()
 
