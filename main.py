@@ -121,6 +121,6 @@ if __name__ == '__main__':
     worker = PlotGenerator(interval=5)
     worker.start()
     print("Obtained port {} from env".format(port))
-    uvicorn.run(app, host="0.0.0.0", port=port, debug=True, workers=1)
+    uvicorn.run(app, host="0.0.0.0", port=port, workers=1)
     worker.terminate()
 
