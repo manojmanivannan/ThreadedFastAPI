@@ -1,5 +1,4 @@
-FROM python:3.6-slim
-LABEL maintainer="ManojManivannan"
+FROM python:3.11-slim
 
 ###### Copy python package
 RUN mkdir /home/content && mkdir /home/templates
@@ -16,6 +15,8 @@ RUN pip install --upgrade pip && pip install --no-cache-dir wheel
 RUN pip install --no-cache-dir -r requirements.txt
 #RUN pip install --no-cache-dir etc/basemap-master.zip
 #RUN rm -f etc/basemap-master.zip
+RUN mkdir /home/etc
+COPY etc/ /home/etc
 
-EXPOSE 8501
+EXPOSE 5000
 CMD ["python","main.py"]

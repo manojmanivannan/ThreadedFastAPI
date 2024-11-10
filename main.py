@@ -9,7 +9,6 @@ from time import sleep
 from typing import Optional, Any
 from pathlib import Path
 from threading import Thread, Event
-from time import sleep
 from mpl_toolkits.basemap import Basemap # pip does not include this package, install by downloading the binary from web
 # for windows install from wheel https://www.lfd.uci.edu/~gohlke/pythonlibs/#basemap
 from geopy.geocoders import Nominatim
@@ -18,7 +17,7 @@ import os
 port = int(os.environ.get('PORT', 5000)) # add 
 
 
-iss_url = 'http://api.open-notify.org/iss-now.json'
+iss_url = 'https://api.wheretheiss.at/v1/satellites/25544'
 
 # 1
 BASE_PATH = Path(__file__).resolve().parent
@@ -59,7 +58,7 @@ class PlotGenerator(Thread):
         self.stop_event = Event()
         self.interval = interval
         super(PlotGenerator, self).__init__()
-
+    
     def run(self):
          if not self.stop_event.is_set():
             
@@ -78,26 +77,27 @@ class PlotGenerator(Thread):
         print('INFO:     Getting Location')
         response = url.urlopen(iss_url)
         json_res = json.loads(response.read())
-        geo_location = json_res['iss_position']
+        geo_location = json_res
         print('INFO:     Location obtained')
-        timestamp = json_res['timestamp']
+        timestamp = geo_location['timestamp']
         lon, lat = float(geo_location['longitude']), float(geo_location['latitude'])
         self.gps_location = {'timestamp':timestamp, 'latitude': lat,'longitude': lon}
 
         self.m = Basemap(projection='ortho',
             lat_0=self.gps_location['latitude'],
             lon_0=self.gps_location['longitude'],
-            resolution='c')
+            resolution='i')
         self.m.fillcontinents(color='coral',lake_color='aqua')
         # draw parallels and meridians
         self.m.drawparallels(np.arange(-90.,91.,30.))
         self.m.drawmeridians(np.arange(-180.,181.,60.))
-        self.m.drawcountries()
+        self.m.drawcountries(linewidth=0.5)
+        self.m.shadedrelief()
         self.m.drawmapboundary(fill_color='aqua')
 
         x_pt, y_pt = self.m(self.gps_location['longitude'],self.gps_location['latitude'])
         self.point = self.m.plot(x_pt, y_pt,'bo')[0]
-        self.point.set_data(x_pt,y_pt)
+        self.point.set_data([x_pt],[y_pt])
         plt.text(x_pt, y_pt, 'Lat:{} Lon:{}'.\
             format(\
                 round(self.gps_location['latitude'],2),\
@@ -109,7 +109,7 @@ class PlotGenerator(Thread):
 
     def main(self):
         try:
-            sleep(3)
+            sleep(5)
             self.get_plot()
 
         except Exception as e:
